@@ -1,5 +1,5 @@
 import pandas as pd
-from commands import read_write,moved,table
+from commands import read_write,moved,see_column
 import globals, utils
 from globals import bot, sheet_name, file_path
 
@@ -25,8 +25,8 @@ def input_handler():
     
     if(m_text[0] == "moved" or m_text[0] == "move"):
         moved(m_text, orders_df)
-    elif(m_text[0] == "table"):
-        table(m_text, orders_df)
+    elif(m_text[0] == "column"):
+        see_column(m_text, orders_df)
     else:
         read_write(m_text, orders_df)
 
@@ -34,7 +34,7 @@ def input_handler():
 @bot.message_handler(commands=['start', 'help'])
 def handle_start(message):
 
-    bot.send_message(message.chat.id, "table, column name: to see the table\ncolumn name, row name: to see cell\ncolumn name, row name, new value: to set value\nmoved, column name, rowfrom name, rowto name: to move value\n /info to see full table")
+    bot.send_message(message.chat.id, "column, column name: to see the column\ncolumn name, row name: to see cell\ncolumn name, row name, new value: to set value\nmoved, column name, rowfrom name, rowto name: to move value\n /info to see full table")
 
 @bot.message_handler(commands=['info'])
 def handle_info(message):
