@@ -11,8 +11,10 @@ def read_write(m_text, orders_df):
         status = orders_df.loc[row, column].values
     else:
         input_info = m_text[2]
+        if(not input_info.isdigit()):
+            raise Exception("can be only number")
 
-        status = orders_df.loc[row, column] = input_info
+        status = orders_df.loc[orders_df['room'] == row, column] = input_info
         orders_df.to_excel(file_path, sheet_name=sheet_name, index=False, engine="openpyxl")
             
     if len(status) > 0:
@@ -26,8 +28,8 @@ def moved(m_text, orders_df):
     row = m_text[2]
     row2 = m_text[3]
 
-    if(orders_df.loc[ row, column].values == 0):
-        raise Exception(f"haven't {column} in the room")
+  #  if(orders_df.loc[row, column].values == 0):
+   #     raise Exception(f"haven't {column} in the room")
     orders_df.loc[row, column] -=1
     orders_df.loc[row2, column] += 1
     status = orders_df.loc[row2, column]

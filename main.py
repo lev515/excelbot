@@ -1,29 +1,23 @@
 import pandas as pd
-
-
 from commands import read_write,moved,table
-import globals
-from globals import bot, sheet_name, file_path, message_g
+import globals, utils
+from globals import bot, sheet_name, file_path
 
-def msg_to_standart(_message = globals.message_g):
-    m_text = globals.message_g.text.replace(' ', '')
-    m_text = m_text.lower()
-    m_text = m_text.replace('.', ',')
-    m_text = m_text.split(",")
-    return m_text
-
-
+def load_orders():
+    df = pd.read_excel(file_path, sheet_name=sheet_name)
+    #df['room'] = df['room'].astype(str)
+    return df
 
 
 def input_handler():
 
     orders_df = load_orders()
-    m_text = msg_to_standart()
+    m_text = utils.msg_to_standart()
 
     if(len(m_text) <= 1):
         raise Exception("to low amount of agruments")
     
-    if(m_text[1] == 'room'):
+    if('room' in m_text[1]):
         raise Exception("first column can't be changet")
     
     if(m_text[1] not in orders_df.columns and m_text[0] not in orders_df.columns):
@@ -36,11 +30,6 @@ def input_handler():
     else:
         read_write(m_text, orders_df)
 
-def load_orders():
-
-    df = pd.read_excel(file_path, sheet_name=sheet_name)
-    df['room'] = df['room'].astype(str)
-    return df
 
 @bot.message_handler(commands=['start', 'help'])
 def handle_start(message):
