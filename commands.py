@@ -42,9 +42,12 @@ def moved(m_text, orders_df):
 
 def table(text, orders_df):
     from globals import message_g
-
     column = text[1]
+    output = ''
+    a = orders_df.loc[orders_df[column] > 0, [column, 'room']]
+    for i in range(0, a.room.values.size):
+        output += str(a.bed.values[i]) + '  ' + str(a.room.values[i]) + '\n'
 
-    bot.send_message(message_g.chat.id, F"R   {column} \n{orders_df.loc[orders_df[column] > 0, column].to_string()}")
+    bot.send_message(message_g.chat.id, F"R   {column} \n{output}")
     #bot.send_message(message_g.chat.id, "\n".join(orders_df[column].astype(str)))
 

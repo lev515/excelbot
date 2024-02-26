@@ -5,7 +5,7 @@ from globals import bot, sheet_name, file_path
 
 def load_orders():
     df = pd.read_excel(file_path, sheet_name=sheet_name)
-    #df['room'] = df['room'].astype(str)
+    df['room'] = df['room'].astype(str)
     return df
 
 
