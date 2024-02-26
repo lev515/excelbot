@@ -34,7 +34,7 @@ def input_handler():
 @bot.message_handler(commands=['start', 'help'])
 def handle_start(message):
 
-    bot.send_message(message.chat.id, "column, column name: to see the column\ncolumn name, row name: to see cell\ncolumn name, row name, new value: to set value\nmoved, column name, rowfrom name, rowto name: to move value\n /info to see full table")
+    bot.send_message(message.chat.id, "column, column name, from what amount see(defolt = 0): to see the column\ncolumn name, row name: to see cell\ncolumn name, row name, new value: to set value\nmoved, column name, rowfrom name, rowto name: to move value\n /info to see full table")
 
 @bot.message_handler(commands=['info'])
 def handle_info(message):

@@ -40,13 +40,18 @@ def moved(m_text, orders_df):
     else:
         bot.send_message(message_g.chat.id, f"Заказ с номером {row} не найден.")
 
-def see_column(text, orders_df):
+def see_column(text, orders_df, min_number = 0):
     from globals import message_g
     column = text[1]
     output = ''
-    a = orders_df.loc[orders_df[column] > 0, [column, 'room']]
+
+    if(len(text) == 3): min_number = int(text[2])
+    a = orders_df.loc[orders_df[column] > min_number, [column, 'room']]
+    
     for i in range(0, a.room.values.size):
-        output += str(a.room.values[i]) + '  ' + str(getattr(a, column).values[i]) + '\n'
+        output += str(a.room.values[i])
+        output += ' ' * ((4 - len(str(a.room.values[i]))) * 3 + 3)
+        output += str(getattr(a, column).values[i]) + '\n'
 
     bot.send_message(message_g.chat.id, F"Room   {column} \n{output}")
  
