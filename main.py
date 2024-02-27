@@ -14,8 +14,8 @@ def input_handler():
     orders_df = load_orders()
     m_text = utils.msg_to_standart()
 
-    if(len(m_text) <= 1):
-        raise Exception("to low amount of agruments")
+    #if(len(m_text) <= 1):
+    #    raise Exception("to low amount of agruments")
     
     if('room' in m_text[1]):
         raise Exception("first column can't be changet")
@@ -47,6 +47,10 @@ def handle_text(message):
     try:
         input_handler()      
     except Exception as e:    
-        bot.send_message(message.chat.id, text=f"E:{str(e)}")
+        f = open('logs.txt', 'a')
+        f.write(str(e)+ '\n')
+        f.close
+        if(message.chat.type == 'private'):
+            bot.send_message(message.chat.id, text=f"E:{str(e)}")
 
 bot.polling()

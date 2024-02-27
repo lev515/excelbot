@@ -53,23 +53,23 @@ def see_column(text, orders_df, min_number = 0):
         output += ' ' * (4 - len(str(a.room.values[i])) + 3)
         output += str(getattr(a, column).values[i]) + '\n'
 
-    bot.send_message(message_g.chat.id, F"```\nRoom   {column} \n{output}```", parse_mode='MarkdownV2')
+    bot.send_message(message_g.chat.id, F"`Room   {column} \n{output}`", parse_mode='MarkdownV2')
     
 
 def see_full_table(orders_df):
     from globals import message_g
     output = ''
-    for i in range(orders_df.columns.size):
-        output += orders_df.columns[i] + "   "
+    for i in orders_df.columns:
+        output += i + "   "
     output += '\n'
     for i in range(0, orders_df.room.values.size):
 
-        for j in range(orders_df.columns.size):
-            output += str(getattr(orders_df, orders_df.columns[j]).values[i])
-            spaces = len(str(orders_df.columns.values[j])) - len(str(getattr(orders_df, orders_df.columns[j]).values[i])) + 3
+        for j in orders_df.columns:
+            output += str(getattr(orders_df, j).values[i])
+            spaces = len(str(j)) - len(str(getattr(orders_df, j).values[i])) + 3
             output += ' ' * spaces
         output += '\n'
     output += ''
     
     print(output)
-    bot.send_message(message_g.chat.id, F"```Full_table:\n{output}```", parse_mode='MarkdownV2')
+    bot.send_message(message_g.chat.id, F"Full table:\n`{output}`", parse_mode='MarkdownV2')
