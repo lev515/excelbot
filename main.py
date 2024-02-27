@@ -1,5 +1,5 @@
 import pandas as pd
-from commands import read_write,moved,see_column
+from commands import read_write,moved,see_column, see_full_table
 import globals, utils
 from globals import bot, sheet_name, file_path
 
@@ -34,12 +34,12 @@ def input_handler():
 @bot.message_handler(commands=['start', 'help'])
 def handle_start(message):
 
-    bot.send_message(message.chat.id, "column, column name, from what amount see(defolt = 0): to see the column\ncolumn name, row name: to see cell\ncolumn name, row name, new value: to set value\nmoved, column name, rowfrom name, rowto name: to move value\n /info to see full table")
+    bot.send_message(message.chat.id, "column, column name, from what amount see(defolt = 0): to see the column\n\ncolumn name, row name: to see cell\n\ncolumn name, row name, new value: to set value\n\nmoved, column name, rowfrom name, rowto name: to move value\n\n /info to see FULL table")
 
 @bot.message_handler(commands=['info'])
 def handle_info(message):
-
-    bot.send_message(message.chat.id, pd.read_excel(file_path,sheet_name=sheet_name).to_string())
+    globals.message_g = message
+    see_full_table(load_orders())
 
 @bot.message_handler(func=lambda message: True)
 def handle_text(message):
