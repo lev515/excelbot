@@ -28,17 +28,16 @@ def moved(m_text, orders_df):
     row = m_text[2]
     row2 = m_text[3]
 
-  #  if(orders_df.loc[row, column].values == 0):
-   #     raise Exception(f"haven't {column} in the room")
+    if (not row in getattr(orders_df, orders_df.columns[0]).values or not row2 in getattr(orders_df, orders_df.columns[0]).values ):
+        raise Exception(f"room not exist")
+    if(orders_df.loc[orders_df['room'] == row, column].values == 0):
+       raise Exception(f"haven't {column} in the room")
+    
     orders_df.loc[orders_df['room'] == row, column] -=1
     orders_df.loc[orders_df['room'] == row2, column] += 1
-    status = orders_df.loc[orders_df['room'] == row2, column]
-    orders_df.to_excel(file_path, sheet_name=sheet_name, index=False)
+    orders_df.to_excel(file_path, sheet_name=sheet_name, index=False)    
 
-    if len(status) > 0:
-        bot.send_message(message_g.chat.id, f"fine")
-    else:
-        bot.send_message(message_g.chat.id, f"Заказ с номером {row} не найден.")
+    bot.send_message(message_g.chat.id, f"fine")
 
 def see_column(text, orders_df, min_number = 0):
     from globals import message_g
@@ -48,7 +47,7 @@ def see_column(text, orders_df, min_number = 0):
     if(len(text) == 3): min_number = int(text[2])
     a = orders_df.loc[orders_df[column] > min_number, [column, 'room']]
     
-    for i in range(0, a.room.values.size):
+    for i in range(0, a.shape[0]):
         output += str(a.room.values[i])
         output += ' ' * (4 - len(str(a.room.values[i])) + 3)
         output += str(getattr(a, column).values[i]) + '\n'
@@ -62,7 +61,7 @@ def see_full_table(orders_df):
     for i in orders_df.columns:
         output += i + "   "
     output += '\n'
-    for i in range(0, orders_df.room.values.size):
+    for i in range(0, orders_df.shape[0]):
 
         for j in orders_df.columns:
             output += str(getattr(orders_df, j).values[i])

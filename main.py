@@ -14,8 +14,8 @@ def input_handler():
     orders_df = load_orders()
     m_text = utils.msg_to_standart()
 
-    #if(len(m_text) <= 1):
-    #    raise Exception("to low amount of agruments")
+    if(len(m_text) <= 1):
+        raise Exception("to low amount of agruments")
     
     if('room' in m_text[1]):
         raise Exception("first column can't be changet")
