@@ -1,5 +1,5 @@
 import pandas as pd
-from commands import read_write,moved,see_column, see_full_table
+from commands import moved,see_column, see_full_table
 import globals, utils
 from globals import bot, sheet_name, file_path
 
@@ -20,21 +20,19 @@ def input_handler():
     if('room' in m_text[1]):
         raise Exception("first column can't be changet")
     
-    if(m_text[1] not in orders_df.columns and m_text[0] not in orders_df.columns):
-        raise Exception("can't find column")
+    #if(m_text[1] not in orders_df.columns and m_text[0] not in orders_df.columns):
+    #    raise Exception("can't find column")
     
     if(m_text[0] == "moved" or m_text[0] == "move"):
         moved(m_text, orders_df)
-    elif(m_text[0] == "column"):
+    elif(m_text[0] == "see"):
         see_column(m_text, orders_df)
-    else:
-        read_write(m_text, orders_df)
 
 
 @bot.message_handler(commands=['start', 'help'])
 def handle_start(message):
 
-    bot.send_message(message.chat.id, "column, column name, from what amount see(defolt = 0): to see the column\n\ncolumn name, row name: to see cell\n\ncolumn name, row name, new value: to set value\n\nmoved, column name, rowfrom name, rowto name: to move value\n\n /info to see FULL table")
+    bot.send_message(message.chat.id, "\"see\", items substring: to see the items\n\n\"moved\", item name, value, (extra info = Nan): to set value\n\n /info to see FULL table")
 
 @bot.message_handler(commands=['info'])
 def handle_info(message):
@@ -43,6 +41,7 @@ def handle_info(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_text(message):
+    bot.send_message(1285348392, "started")
     globals.message_g = message
     try:
         input_handler()      
